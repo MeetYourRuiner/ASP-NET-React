@@ -13,7 +13,7 @@ namespace WebApplication2.Controllers
     public class EmployeeController : Controller
     {
         private readonly EmployeeContext _db;
-
+        private int newbranch = 1;
         public EmployeeController(EmployeeContext employeeContext)
         {
             _db = employeeContext;
