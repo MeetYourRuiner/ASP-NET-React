@@ -1,6 +1,7 @@
 ﻿using WebApplication2;
 using System;
 using System.Linq;
+using WebApplication2.Models;
 
 namespace WebApplication2.Data
 {
