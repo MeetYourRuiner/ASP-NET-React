@@ -21,22 +21,21 @@ namespace WebApplication2.Controllers
         }
 
         [HttpPost("create")]
-        public int Create(Employee employee)
+        public IActionResult Create(Employee employee)
         {
             try
             {
                 _db.Add(employee);
                 _db.SaveChanges();
-                return 1;
+                return Ok();
             }
             catch
             {
-                throw;
+                return BadRequest();
             }
         }
 
         [HttpDelete("delete/{id}")]
-        //[Route("/Employee/Delete/{id}")]
         public IActionResult Delete(int id)
         {
             var employee = _db.Employees.Find(id);
@@ -54,12 +53,6 @@ namespace WebApplication2.Controllers
             {
                 throw;
             }
-        }
-
-        [HttpGet("test")]
-        public string Test()
-        {
-            return "Ok";
         }
 
         [HttpGet("get/{id}")]
@@ -85,6 +78,9 @@ namespace WebApplication2.Controllers
             {
                 var objToUpdate = _db.Employees.SingleOrDefault(e => e.Id == id);
                 objToUpdate.Name = employee.Name;
+                objToUpdate.Email = employee.Email;
+                objToUpdate.Birthday = employee.Birthday;
+                objToUpdate.Salary = employee.Salary;
                 _db.SaveChanges();
                 return Ok();
             }

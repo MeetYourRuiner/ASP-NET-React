@@ -43,6 +43,11 @@ export class EmployeesComponent extends Component {
             this.setState({ currentPage: page });
     }
 
+    getDate(string) {
+        let date = new Date(string);
+        return date.toLocaleDateString();
+    }
+
     renderTable() {
         let employeesOnPage = [];
         const page = this.state.currentPage;
@@ -68,7 +73,7 @@ export class EmployeesComponent extends Component {
                             <td>{employee.id}</td>
                             <td>{employee.name}</td>
                             <td>{employee.email}</td>
-                            <td>{employee.bday}</td>
+                            <td>{this.getDate(employee.birthday)}</td>
                             <td>{employee.salary}</td>
 					    <td>
 						    <button className="btn btn-primary" onClick={() => this.props.history.push("/employees/edit/" + employee.id)}>Edit</button>

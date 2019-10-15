@@ -30,7 +30,7 @@ export class PageSelector extends Component {
             <div >
                 {
                     this.state.numArray.map(page =>
-                        <button className="page-selector" onClick={() => this.props.handle(page)}> {page} </button>
+                        <button key={page} className="page-selector" onClick={() => this.props.handle(page)}> {page} </button>
                     )
                 }
             </div>

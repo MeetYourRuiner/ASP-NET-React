@@ -24,3 +24,7 @@ code {
 .btn:nth-child(2n) {
     margin-left: 5px;
 }
+
+.invalid {
+    border-color: red;
+}
