@@ -1,12 +1,16 @@
 ﻿import React, { Component } from 'react';
+import { PageSelector } from './PageSelector'
 
 export class EmployeesComponent extends Component {
     constructor(props) {
         super(props);
         this.state = {
             employees: [],
-            loading: true
-		};
+            loading: true,
+            pages: 0,
+            currentPage: 1,
+        };
+        this.handlePageSelector = this.handlePageSelector.bind(this);
 	}
 
     componentDidMount() {
@@ -16,7 +20,7 @@ export class EmployeesComponent extends Component {
     async getEmployees() {
         const response = await fetch('api/employee/get');
         const data = await response.json();
-        this.setState({ employees: data, loading: false });
+        this.setState({ employees: data, loading: false, pages: (data.length / 10)});
 	}
 
 	updateState() {
@@ -34,32 +38,47 @@ export class EmployeesComponent extends Component {
 		}
 	}
 
+    handlePageSelector(page) {
+        if (page != this.state.currentPage)
+            this.setState({ currentPage: page });
+    }
+
     renderTable() {
+        let employeesOnPage = [];
+        const page = this.state.currentPage;
+        employeesOnPage = this.state.employees.slice(
+            (page - 1) * 10, // 0, 10, etc...
+            (10 * page) // не включая
+        )
         return (
-                <table className='table table-striped' aria-labelledby="tabelLabel">
-                    <thead>
-                        <tr>
-                            <th>Id</th>
-                            <th>Name</th>
-							<th>Position</th>
-							<th>Controls</th>
+            <table className='table table-striped' aria-labelledby="tabelLabel">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Birthday</th>
+                        <th>Salary</th>
+					    <th>Controls</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {employeesOnPage.map(employee =>
+                        <tr key={employee.id}>
+                            <td>{employee.id}</td>
+                            <td>{employee.name}</td>
+                            <td>{employee.email}</td>
+                            <td>{employee.bday}</td>
+                            <td>{employee.salary}</td>
+					    <td>
+						    <button className="btn btn-primary" onClick={() => this.props.history.push("/employees/edit/" + employee.id)}>Edit</button>
+						    <button className="btn btn-primary" onClick={() => this.handleDelete(employee.id)}>Delete</button>
+					    </td>
                         </tr>
-                    </thead>
-                    <tbody>
-					{this.state.employees.map(employee =>
-                            <tr key={employee.id}>
-                                <td>{employee.id}</td>
-                                <td>{employee.name}</td>
-								<td>{employee.position}</td>
-							<td>
-								<button className="btn btn-primary" onClick={() => this.props.history.push("/employees/edit/" + employee.id)}>Edit</button>
-								<button className="btn btn-primary" onClick={() => this.handleDelete(employee.id)}>Delete</button>
-							</td>
-                            </tr>
-                        )}
-                    </tbody>
-                </table>
-            );
+                    )}
+                </tbody>
+            </table>
+        );
     }
 
     render() {
@@ -68,10 +87,10 @@ export class EmployeesComponent extends Component {
             : this.renderTable();
         return (
             <div>
-                <h1 id="tabelLabel" >Employees</h1>
+                <h1 id="tableLabel" >Employees</h1>
+                <p><button className="btn btn-primary" onClick={() => this.props.history.push('/employees/create')}>New employee</button></p>
                 {contents}
-				{/* <p><Link to="/create">Add new employee</Link></p> */}
-				<p><button className="btn btn-primary" onClick={() => this.props.history.push('/employees/create')}>New employee</button></p>
+                <PageSelector pages={this.state.pages} handle={this.handlePageSelector}/>
             </div>
         );
     }

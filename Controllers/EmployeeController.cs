@@ -85,7 +85,6 @@ namespace WebApplication2.Controllers
             {
                 var objToUpdate = _db.Employees.SingleOrDefault(e => e.Id == id);
                 objToUpdate.Name = employee.Name;
-                objToUpdate.Position = employee.Position;
                 _db.SaveChanges();
                 return Ok();
             }

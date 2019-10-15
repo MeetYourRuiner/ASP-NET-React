@@ -12,3 +12,15 @@ code {
   background-color: #1b6ec2;
   border-color: #1861ac;
 }
+
+.page-selector {
+    display: inline-block;
+}
+
+.page-selector:nth-child(2n) {
+    margin-left: 5px;
+}
+
+.btn:nth-child(2n) {
+    margin-left: 5px;
+}
