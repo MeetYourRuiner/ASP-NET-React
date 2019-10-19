@@ -4,11 +4,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using WebApplication2.Data;
-using WebApplication2.Models;
+using EmployeesSPA.Data;
+using EmployeesSPA.Models;
+using Microsoft.AspNetCore.Authorization;
 
-namespace WebApplication2.Controllers
+namespace EmployeesSPA.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class EmployeeController : Controller

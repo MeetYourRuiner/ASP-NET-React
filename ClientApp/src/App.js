@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { Route } from 'react-router';
 import { Layout } from './components/Layout';
-import { Home } from './components/Home';
+import { Login } from './components/Login';
 import './custom.css'
 import { EmployeesComponent } from './components/Employees';
 import { CreateComponent } from './components/Create';
+import PrivateRoute from './components/PrivateRoute';
 
 export default class App extends Component {
   static displayName = App.name;
@@ -12,10 +13,11 @@ export default class App extends Component {
 	render () {
 		return (
 			<Layout>
-				<Route exact path='/' component={Home} />
-				<Route exact path='/employees' component={EmployeesComponent}/>
-				<Route path='/employees/create' component={CreateComponent} />
-				<Route path='/employees/edit/:id' component={CreateComponent}/>
+                <Route exact path='/' component={Login} />
+                <Route path='/login' component={Login} />
+				<PrivateRoute exact path='/employees' component={EmployeesComponent}/>
+				<PrivateRoute path='/employees/create' component={CreateComponent} />
+				<PrivateRoute path='/employees/edit/:id' component={CreateComponent} />
 			</Layout>
 		);
 	}

@@ -6,10 +6,10 @@ using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using WebApplication2.Data;
+using EmployeesSPA.Data;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace WebApplication2
+namespace EmployeesSPA
 {
     public class Program
     {
@@ -21,8 +21,10 @@ namespace WebApplication2
                 var services = scope.ServiceProvider;
                 try
                 {
-                    var context = services.GetRequiredService<EmployeeContext>();
-                    DbInitializer.Initialize(context);
+                    var empContext = services.GetRequiredService<EmployeeContext>();
+                    DbInitializer.Initialize(empContext);
+                    var userContext = services.GetRequiredService<UserContext>();
+                    DbInitializer.Initialize(userContext);
                 }
                 catch (Exception ex)
                 {

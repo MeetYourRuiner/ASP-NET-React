@@ -3,6 +3,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { subYears } from 'date-fns/esm';
 import { toDate } from 'date-fns/fp';
+import { API } from '../API.js';
 
 export class CreateComponent extends Component {
     constructor(props) {
@@ -36,13 +37,7 @@ export class CreateComponent extends Component {
                     'birthday': this.state.birthday,
                     'salary': parseInt(this.state.salary),
                 });
-                await fetch('api/employee/update/' + this.state.empid, {
-                    method: 'POST',
-                    body: data,
-                    headers: {
-                        'Content-Type': 'application/json',
-                    }
-                });
+                await API.updateEmployee(this.state.empid, data);
                 this.props.history.push('/employees');
             }
             else {
@@ -53,20 +48,14 @@ export class CreateComponent extends Component {
                     'salary': parseInt(this.state.salary),
                 }
                 );
-                await fetch('api/employee/create', {
-                    method: 'POST',
-                    body: data,
-                    headers: {
-                        'Content-Type': 'application/json',
-                    }
-                });
+                await API.createEmployee(data);
                 this.props.history.push('/employees');
             }
         }
 	}
 
     async fetchEmployee(id) {
-        const response = await fetch('api/employee/get/' + id);
+        const response = await API.getEmployee(id);
         const object = await response.json();
         const date = toDate(new Date(object.birthday));
         this.setState({
@@ -89,8 +78,8 @@ export class CreateComponent extends Component {
 	}
 
     Validation(event) {
-        const emailReg = /(?<!.)(\w|\.|\+|\-)+@\w+\.\w+(?!.)/;
-        const nameReg = /(?<!.)([a-zA-Z]|[а-яА-Я]){2,}(?!.)/;
+        const emailReg = /(?<!.)(\w|\.|\+|\-)+@\w+\.\w+(?!.)/; // email-email+email@mail.com
+        const nameReg = /(?<!.)([a-zA-Z]|[а-яА-Я]){2,}(?!.)/; // NameИмя
         switch (event.target.name) {
             case "name":
                 if (nameReg.test(event.target.value))
@@ -115,7 +104,7 @@ export class CreateComponent extends Component {
 
     render() {
         return (
-			<form onSubmit={this.handleSubmit}>
+			<form className="editBox" onSubmit={this.handleSubmit}>
                 <h1>{this.state.title}</h1>
                 <table>
                     <tbody>

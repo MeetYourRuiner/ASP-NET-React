@@ -1,5 +1,6 @@
 ﻿import React, { Component } from 'react';
 import { PageSelector } from './PageSelector'
+import { API } from '../API.js';
 
 export class EmployeesComponent extends Component {
     constructor(props) {
@@ -14,25 +15,22 @@ export class EmployeesComponent extends Component {
 	}
 
     componentDidMount() {
-        this.getEmployees();
+        this.fetchEmployees();
     }
 
-    async getEmployees() {
-        const response = await fetch('api/employee/get');
+    async fetchEmployees() {
+        const response = await API.getEmployees();
         const data = await response.json();
         this.setState({ employees: data, loading: false, pages: (data.length / 10)});
 	}
 
 	updateState() {
 		this.setState({ loading: true });
-		this.getEmployees();
+		this.fetchEmployees();
 	}
 
 	async handleDelete(id) {
-		const response = await fetch(
-			'api/employee/delete/' + id,
-			{ method: 'DELETE', }
-		);
+        const response = await API.deleteEmployee(id);
 		if (response.ok) {
 			this.updateState();
 		}
@@ -53,7 +51,7 @@ export class EmployeesComponent extends Component {
         const page = this.state.currentPage;
         employeesOnPage = this.state.employees.slice(
             (page - 1) * 10, // 0, 10, etc...
-            (10 * page) // не включая
+            (10 * page) // не включая 10
         )
         return (
             <table className='table table-striped' aria-labelledby="tabelLabel">
@@ -93,7 +91,7 @@ export class EmployeesComponent extends Component {
         return (
             <div>
                 <h1 id="tableLabel" >Employees</h1>
-                <p><button className="btn btn-primary" onClick={() => this.props.history.push('/employees/create')}>New employee</button></p>
+                <p><button className="btn btn-primary" onClick={() => this.props.history.push('/employees/create')}>New</button></p>
                 {contents}
                 <PageSelector pages={this.state.pages} handle={this.handlePageSelector}/>
             </div>

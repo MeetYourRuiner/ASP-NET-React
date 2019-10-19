@@ -15,6 +15,9 @@ code {
 
 .page-selector {
     display: inline-block;
+    color: #0366d6;
+    background-color: rgba(255, 255, 255, 0.00);
+    border: none;
 }
 
 .page-selector:nth-child(2n) {
@@ -27,4 +30,17 @@ code {
 
 .invalid {
     border-color: red;
+}
+
+.loginBox input {
+    margin: 3px 0 5px 0;
+}
+
+.editBox table input {
+    margin-left: 5px;
+    width:125%;
+}
+
+.editBox > table {
+    margin-bottom: 5px;
 }

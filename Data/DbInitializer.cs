@@ -1,9 +1,9 @@
-﻿using WebApplication2;
+﻿using EmployeesSPA;
 using System;
 using System.Linq;
-using WebApplication2.Models;
+using EmployeesSPA.Models;
 
-namespace WebApplication2.Data
+namespace EmployeesSPA.Data
 {
     public class DbInitializer
     {
@@ -32,6 +32,14 @@ namespace WebApplication2.Data
             {
                 context.Employees.Add(e);
             }
+            context.SaveChanges();
+        }
+        public static void Initialize(UserContext context)
+        {
+            context.Database.EnsureCreated();
+            if (context.User.Any())
+                return;
+            context.User.Add(new User { Login = "admin", Password = "admin" });
             context.SaveChanges();
         }
     }

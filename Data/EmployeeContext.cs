@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using WebApplication2.Models;
+using EmployeesSPA.Models;
 
-namespace WebApplication2.Data
+namespace EmployeesSPA.Data
 {
     public class EmployeeContext : DbContext
     {
@@ -9,7 +9,6 @@ namespace WebApplication2.Data
             : base(options)
         {
         }
-
         public DbSet<Employee> Employees { get; set; }
     }
 }

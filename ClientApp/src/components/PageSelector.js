@@ -28,6 +28,7 @@ export class PageSelector extends Component {
         this.updateState();
         return (
             <div >
+                Pages: 
                 {
                     this.state.numArray.map(page =>
                         <button key={page} className="page-selector" onClick={() => this.props.handle(page)}> {page} </button>
